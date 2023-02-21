@@ -1,0 +1,10 @@
+syntax = "proto3";
+package archive.cda;
+
+import "gogoproto/gogo.proto";
+import "archive/cda/params.proto";
+
+option go_package = "github.com/HankBreck/archive/x/cda/types";
+
+// GenesisState defines the cda module's genesis state.
+message GenesisState { Params params = 1 [ (gogoproto.nullable) = false ]; }
