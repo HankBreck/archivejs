@@ -1,6 +1,6 @@
 import { HashEntry, HashEntrySDKType } from "./certificate";
 import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, Long } from "../../helpers";
+import { isSet, Long } from "../../helpers";
 export interface MsgRegisterIssuer {
   creator: string;
   name: string;
@@ -157,7 +157,23 @@ export const MsgRegisterIssuer = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<MsgRegisterIssuer>): MsgRegisterIssuer {
+  fromJSON(object: any): MsgRegisterIssuer {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      name: isSet(object.name) ? String(object.name) : "",
+      moreInfoUri: isSet(object.moreInfoUri) ? String(object.moreInfoUri) : ""
+    };
+  },
+
+  toJSON(message: MsgRegisterIssuer): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.name !== undefined && (obj.name = message.name);
+    message.moreInfoUri !== undefined && (obj.moreInfoUri = message.moreInfoUri);
+    return obj;
+  },
+
+  fromPartial(object: Partial<MsgRegisterIssuer>): MsgRegisterIssuer {
     const message = createBaseMsgRegisterIssuer();
     message.creator = object.creator ?? "";
     message.name = object.name ?? "";
@@ -194,7 +210,16 @@ export const MsgRegisterIssuerResponse = {
     return message;
   },
 
-  fromPartial(_: DeepPartial<MsgRegisterIssuerResponse>): MsgRegisterIssuerResponse {
+  fromJSON(_: any): MsgRegisterIssuerResponse {
+    return {};
+  },
+
+  toJSON(_: MsgRegisterIssuerResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: Partial<MsgRegisterIssuerResponse>): MsgRegisterIssuerResponse {
     const message = createBaseMsgRegisterIssuerResponse();
     return message;
   }
@@ -274,7 +299,33 @@ export const MsgIssueCertificate = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<MsgIssueCertificate>): MsgIssueCertificate {
+  fromJSON(object: any): MsgIssueCertificate {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      recipient: isSet(object.recipient) ? String(object.recipient) : "",
+      salt: isSet(object.salt) ? String(object.salt) : "",
+      metadataSchemaUri: isSet(object.metadataSchemaUri) ? String(object.metadataSchemaUri) : "",
+      hashes: Array.isArray(object?.hashes) ? object.hashes.map((e: any) => HashEntry.fromJSON(e)) : []
+    };
+  },
+
+  toJSON(message: MsgIssueCertificate): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.recipient !== undefined && (obj.recipient = message.recipient);
+    message.salt !== undefined && (obj.salt = message.salt);
+    message.metadataSchemaUri !== undefined && (obj.metadataSchemaUri = message.metadataSchemaUri);
+
+    if (message.hashes) {
+      obj.hashes = message.hashes.map(e => e ? HashEntry.toJSON(e) : undefined);
+    } else {
+      obj.hashes = [];
+    }
+
+    return obj;
+  },
+
+  fromPartial(object: Partial<MsgIssueCertificate>): MsgIssueCertificate {
     const message = createBaseMsgIssueCertificate();
     message.creator = object.creator ?? "";
     message.recipient = object.recipient ?? "";
@@ -323,7 +374,19 @@ export const MsgIssueCertificateResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<MsgIssueCertificateResponse>): MsgIssueCertificateResponse {
+  fromJSON(object: any): MsgIssueCertificateResponse {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO
+    };
+  },
+
+  toJSON(message: MsgIssueCertificateResponse): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    return obj;
+  },
+
+  fromPartial(object: Partial<MsgIssueCertificateResponse>): MsgIssueCertificateResponse {
     const message = createBaseMsgIssueCertificateResponse();
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
     return message;
@@ -377,7 +440,21 @@ export const MsgAcceptIdentity = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<MsgAcceptIdentity>): MsgAcceptIdentity {
+  fromJSON(object: any): MsgAcceptIdentity {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO
+    };
+  },
+
+  toJSON(message: MsgAcceptIdentity): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    return obj;
+  },
+
+  fromPartial(object: Partial<MsgAcceptIdentity>): MsgAcceptIdentity {
     const message = createBaseMsgAcceptIdentity();
     message.creator = object.creator ?? "";
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
@@ -413,7 +490,16 @@ export const MsgAcceptIdentityResponse = {
     return message;
   },
 
-  fromPartial(_: DeepPartial<MsgAcceptIdentityResponse>): MsgAcceptIdentityResponse {
+  fromJSON(_: any): MsgAcceptIdentityResponse {
+    return {};
+  },
+
+  toJSON(_: MsgAcceptIdentityResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: Partial<MsgAcceptIdentityResponse>): MsgAcceptIdentityResponse {
     const message = createBaseMsgAcceptIdentityResponse();
     return message;
   }
@@ -466,7 +552,21 @@ export const MsgRejectIdentity = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<MsgRejectIdentity>): MsgRejectIdentity {
+  fromJSON(object: any): MsgRejectIdentity {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO
+    };
+  },
+
+  toJSON(message: MsgRejectIdentity): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    return obj;
+  },
+
+  fromPartial(object: Partial<MsgRejectIdentity>): MsgRejectIdentity {
     const message = createBaseMsgRejectIdentity();
     message.creator = object.creator ?? "";
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
@@ -502,7 +602,16 @@ export const MsgRejectIdentityResponse = {
     return message;
   },
 
-  fromPartial(_: DeepPartial<MsgRejectIdentityResponse>): MsgRejectIdentityResponse {
+  fromJSON(_: any): MsgRejectIdentityResponse {
+    return {};
+  },
+
+  toJSON(_: MsgRejectIdentityResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: Partial<MsgRejectIdentityResponse>): MsgRejectIdentityResponse {
     const message = createBaseMsgRejectIdentityResponse();
     return message;
   }
@@ -555,7 +664,21 @@ export const MsgRenounceIdentity = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<MsgRenounceIdentity>): MsgRenounceIdentity {
+  fromJSON(object: any): MsgRenounceIdentity {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO
+    };
+  },
+
+  toJSON(message: MsgRenounceIdentity): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    return obj;
+  },
+
+  fromPartial(object: Partial<MsgRenounceIdentity>): MsgRenounceIdentity {
     const message = createBaseMsgRenounceIdentity();
     message.creator = object.creator ?? "";
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
@@ -591,7 +714,16 @@ export const MsgRenounceIdentityResponse = {
     return message;
   },
 
-  fromPartial(_: DeepPartial<MsgRenounceIdentityResponse>): MsgRenounceIdentityResponse {
+  fromJSON(_: any): MsgRenounceIdentityResponse {
+    return {};
+  },
+
+  toJSON(_: MsgRenounceIdentityResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: Partial<MsgRenounceIdentityResponse>): MsgRenounceIdentityResponse {
     const message = createBaseMsgRenounceIdentityResponse();
     return message;
   }
@@ -662,7 +794,36 @@ export const MsgUpdateOperators = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<MsgUpdateOperators>): MsgUpdateOperators {
+  fromJSON(object: any): MsgUpdateOperators {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+      toAdd: Array.isArray(object?.toAdd) ? object.toAdd.map((e: any) => String(e)) : [],
+      toRemove: Array.isArray(object?.toRemove) ? object.toRemove.map((e: any) => String(e)) : []
+    };
+  },
+
+  toJSON(message: MsgUpdateOperators): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+
+    if (message.toAdd) {
+      obj.toAdd = message.toAdd.map(e => e);
+    } else {
+      obj.toAdd = [];
+    }
+
+    if (message.toRemove) {
+      obj.toRemove = message.toRemove.map(e => e);
+    } else {
+      obj.toRemove = [];
+    }
+
+    return obj;
+  },
+
+  fromPartial(object: Partial<MsgUpdateOperators>): MsgUpdateOperators {
     const message = createBaseMsgUpdateOperators();
     message.creator = object.creator ?? "";
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
@@ -700,7 +861,16 @@ export const MsgUpdateOperatorsResponse = {
     return message;
   },
 
-  fromPartial(_: DeepPartial<MsgUpdateOperatorsResponse>): MsgUpdateOperatorsResponse {
+  fromJSON(_: any): MsgUpdateOperatorsResponse {
+    return {};
+  },
+
+  toJSON(_: MsgUpdateOperatorsResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: Partial<MsgUpdateOperatorsResponse>): MsgUpdateOperatorsResponse {
     const message = createBaseMsgUpdateOperatorsResponse();
     return message;
   }
@@ -771,7 +941,36 @@ export const MsgUpdateMembers = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<MsgUpdateMembers>): MsgUpdateMembers {
+  fromJSON(object: any): MsgUpdateMembers {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+      toAdd: Array.isArray(object?.toAdd) ? object.toAdd.map((e: any) => String(e)) : [],
+      toRemove: Array.isArray(object?.toRemove) ? object.toRemove.map((e: any) => String(e)) : []
+    };
+  },
+
+  toJSON(message: MsgUpdateMembers): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+
+    if (message.toAdd) {
+      obj.toAdd = message.toAdd.map(e => e);
+    } else {
+      obj.toAdd = [];
+    }
+
+    if (message.toRemove) {
+      obj.toRemove = message.toRemove.map(e => e);
+    } else {
+      obj.toRemove = [];
+    }
+
+    return obj;
+  },
+
+  fromPartial(object: Partial<MsgUpdateMembers>): MsgUpdateMembers {
     const message = createBaseMsgUpdateMembers();
     message.creator = object.creator ?? "";
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
@@ -809,7 +1008,16 @@ export const MsgUpdateMembersResponse = {
     return message;
   },
 
-  fromPartial(_: DeepPartial<MsgUpdateMembersResponse>): MsgUpdateMembersResponse {
+  fromJSON(_: any): MsgUpdateMembersResponse {
+    return {};
+  },
+
+  toJSON(_: MsgUpdateMembersResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: Partial<MsgUpdateMembersResponse>): MsgUpdateMembersResponse {
     const message = createBaseMsgUpdateMembersResponse();
     return message;
   }
@@ -862,7 +1070,21 @@ export const MsgFreezeIdentity = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<MsgFreezeIdentity>): MsgFreezeIdentity {
+  fromJSON(object: any): MsgFreezeIdentity {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO
+    };
+  },
+
+  toJSON(message: MsgFreezeIdentity): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    return obj;
+  },
+
+  fromPartial(object: Partial<MsgFreezeIdentity>): MsgFreezeIdentity {
     const message = createBaseMsgFreezeIdentity();
     message.creator = object.creator ?? "";
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
@@ -898,7 +1120,16 @@ export const MsgFreezeIdentityResponse = {
     return message;
   },
 
-  fromPartial(_: DeepPartial<MsgFreezeIdentityResponse>): MsgFreezeIdentityResponse {
+  fromJSON(_: any): MsgFreezeIdentityResponse {
+    return {};
+  },
+
+  toJSON(_: MsgFreezeIdentityResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: Partial<MsgFreezeIdentityResponse>): MsgFreezeIdentityResponse {
     const message = createBaseMsgFreezeIdentityResponse();
     return message;
   }

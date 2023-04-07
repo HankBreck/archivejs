@@ -1,5 +1,5 @@
 import * as _m0 from "protobufjs/minimal";
-import { DeepPartial } from "../../helpers";
+import { isSet } from "../../helpers";
 export interface Issuer {
   creator: string;
   name: string;
@@ -66,7 +66,23 @@ export const Issuer = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<Issuer>): Issuer {
+  fromJSON(object: any): Issuer {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      name: isSet(object.name) ? String(object.name) : "",
+      moreInfoUri: isSet(object.moreInfoUri) ? String(object.moreInfoUri) : ""
+    };
+  },
+
+  toJSON(message: Issuer): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.name !== undefined && (obj.name = message.name);
+    message.moreInfoUri !== undefined && (obj.moreInfoUri = message.moreInfoUri);
+    return obj;
+  },
+
+  fromPartial(object: Partial<Issuer>): Issuer {
     const message = createBaseIssuer();
     message.creator = object.creator ?? "";
     message.name = object.name ?? "";

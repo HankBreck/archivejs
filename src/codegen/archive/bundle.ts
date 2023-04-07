@@ -14,15 +14,12 @@ import * as _125 from "./cda/tx.amino";
 import * as _126 from "./identity/tx.amino";
 import * as _127 from "./cda/tx.registry";
 import * as _128 from "./identity/tx.registry";
-import * as _129 from "./cda/query.lcd";
-import * as _130 from "./identity/query.lcd";
-import * as _131 from "./cda/query.rpc.Query";
-import * as _132 from "./identity/query.rpc.Query";
-import * as _133 from "./cda/tx.rpc.msg";
-import * as _134 from "./identity/tx.rpc.msg";
-import * as _212 from "./lcd";
-import * as _213 from "./rpc.query";
-import * as _214 from "./rpc.tx";
+import * as _129 from "./cda/query.rpc.Query";
+import * as _130 from "./identity/query.rpc.Query";
+import * as _131 from "./cda/tx.rpc.msg";
+import * as _132 from "./identity/tx.rpc.msg";
+import * as _193 from "./rpc.query";
+import * as _194 from "./rpc.tx";
 export namespace archive {
   export const cda = { ..._1,
     ..._2,
@@ -33,8 +30,7 @@ export namespace archive {
     ..._125,
     ..._127,
     ..._129,
-    ..._131,
-    ..._133
+    ..._131
   };
   export const identity = { ..._7,
     ..._8,
@@ -45,11 +41,9 @@ export namespace archive {
     ..._126,
     ..._128,
     ..._130,
-    ..._132,
-    ..._134
+    ..._132
   };
-  export const ClientFactory = { ..._212,
-    ..._213,
-    ..._214
+  export const ClientFactory = { ..._193,
+    ..._194
   };
 }

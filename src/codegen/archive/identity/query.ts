@@ -3,7 +3,7 @@ import { Params, ParamsSDKType } from "./params";
 import { Issuer, IssuerSDKType } from "./issuer";
 import { Certificate, CertificateSDKType } from "./certificate";
 import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, Long } from "../../helpers";
+import { isSet, Long } from "../../helpers";
 /** QueryParamsRequest is request type for the Query/Params RPC method. */
 
 export interface QueryParamsRequest {}
@@ -19,6 +19,7 @@ export interface QueryParamsResponse {
 /** QueryParamsResponse is response type for the Query/Params RPC method. */
 
 export interface QueryParamsResponseSDKType {
+  /** params holds all the parameters of this module. */
   params?: ParamsSDKType;
 }
 export interface QueryIdentityMembersRequest {
@@ -147,7 +148,16 @@ export const QueryParamsRequest = {
     return message;
   },
 
-  fromPartial(_: DeepPartial<QueryParamsRequest>): QueryParamsRequest {
+  fromJSON(_: any): QueryParamsRequest {
+    return {};
+  },
+
+  toJSON(_: QueryParamsRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: Partial<QueryParamsRequest>): QueryParamsRequest {
     const message = createBaseQueryParamsRequest();
     return message;
   }
@@ -191,7 +201,19 @@ export const QueryParamsResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryParamsResponse>): QueryParamsResponse {
+  fromJSON(object: any): QueryParamsResponse {
+    return {
+      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined
+    };
+  },
+
+  toJSON(message: QueryParamsResponse): unknown {
+    const obj: any = {};
+    message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryParamsResponse>): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
     message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
     return message;
@@ -254,7 +276,23 @@ export const QueryIdentityMembersRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryIdentityMembersRequest>): QueryIdentityMembersRequest {
+  fromJSON(object: any): QueryIdentityMembersRequest {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+      isPending: isSet(object.isPending) ? Boolean(object.isPending) : false,
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
+    };
+  },
+
+  toJSON(message: QueryIdentityMembersRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    message.isPending !== undefined && (obj.isPending = message.isPending);
+    message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryIdentityMembersRequest>): QueryIdentityMembersRequest {
     const message = createBaseQueryIdentityMembersRequest();
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
     message.isPending = object.isPending ?? false;
@@ -310,7 +348,27 @@ export const QueryIdentityMembersResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryIdentityMembersResponse>): QueryIdentityMembersResponse {
+  fromJSON(object: any): QueryIdentityMembersResponse {
+    return {
+      members: Array.isArray(object?.members) ? object.members.map((e: any) => String(e)) : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
+    };
+  },
+
+  toJSON(message: QueryIdentityMembersResponse): unknown {
+    const obj: any = {};
+
+    if (message.members) {
+      obj.members = message.members.map(e => e);
+    } else {
+      obj.members = [];
+    }
+
+    message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryIdentityMembersResponse>): QueryIdentityMembersResponse {
     const message = createBaseQueryIdentityMembersResponse();
     message.members = object.members?.map(e => e) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
@@ -356,7 +414,19 @@ export const QueryIssuersRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryIssuersRequest>): QueryIssuersRequest {
+  fromJSON(object: any): QueryIssuersRequest {
+    return {
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
+    };
+  },
+
+  toJSON(message: QueryIssuersRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryIssuersRequest>): QueryIssuersRequest {
     const message = createBaseQueryIssuersRequest();
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
     return message;
@@ -410,7 +480,27 @@ export const QueryIssuersResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryIssuersResponse>): QueryIssuersResponse {
+  fromJSON(object: any): QueryIssuersResponse {
+    return {
+      issuers: Array.isArray(object?.issuers) ? object.issuers.map((e: any) => String(e)) : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
+    };
+  },
+
+  toJSON(message: QueryIssuersResponse): unknown {
+    const obj: any = {};
+
+    if (message.issuers) {
+      obj.issuers = message.issuers.map(e => e);
+    } else {
+      obj.issuers = [];
+    }
+
+    message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryIssuersResponse>): QueryIssuersResponse {
     const message = createBaseQueryIssuersResponse();
     message.issuers = object.issuers?.map(e => e) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
@@ -456,7 +546,19 @@ export const QueryIssuerInfoRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryIssuerInfoRequest>): QueryIssuerInfoRequest {
+  fromJSON(object: any): QueryIssuerInfoRequest {
+    return {
+      issuer: isSet(object.issuer) ? String(object.issuer) : ""
+    };
+  },
+
+  toJSON(message: QueryIssuerInfoRequest): unknown {
+    const obj: any = {};
+    message.issuer !== undefined && (obj.issuer = message.issuer);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryIssuerInfoRequest>): QueryIssuerInfoRequest {
     const message = createBaseQueryIssuerInfoRequest();
     message.issuer = object.issuer ?? "";
     return message;
@@ -501,7 +603,19 @@ export const QueryIssuerInfoResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryIssuerInfoResponse>): QueryIssuerInfoResponse {
+  fromJSON(object: any): QueryIssuerInfoResponse {
+    return {
+      issuerInfo: isSet(object.issuerInfo) ? Issuer.fromJSON(object.issuerInfo) : undefined
+    };
+  },
+
+  toJSON(message: QueryIssuerInfoResponse): unknown {
+    const obj: any = {};
+    message.issuerInfo !== undefined && (obj.issuerInfo = message.issuerInfo ? Issuer.toJSON(message.issuerInfo) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryIssuerInfoResponse>): QueryIssuerInfoResponse {
     const message = createBaseQueryIssuerInfoResponse();
     message.issuerInfo = object.issuerInfo !== undefined && object.issuerInfo !== null ? Issuer.fromPartial(object.issuerInfo) : undefined;
     return message;
@@ -546,7 +660,19 @@ export const QueryIdentityRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryIdentityRequest>): QueryIdentityRequest {
+  fromJSON(object: any): QueryIdentityRequest {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO
+    };
+  },
+
+  toJSON(message: QueryIdentityRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryIdentityRequest>): QueryIdentityRequest {
     const message = createBaseQueryIdentityRequest();
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
     return message;
@@ -591,7 +717,19 @@ export const QueryIdentityResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryIdentityResponse>): QueryIdentityResponse {
+  fromJSON(object: any): QueryIdentityResponse {
+    return {
+      certificate: isSet(object.certificate) ? Certificate.fromJSON(object.certificate) : undefined
+    };
+  },
+
+  toJSON(message: QueryIdentityResponse): unknown {
+    const obj: any = {};
+    message.certificate !== undefined && (obj.certificate = message.certificate ? Certificate.toJSON(message.certificate) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryIdentityResponse>): QueryIdentityResponse {
     const message = createBaseQueryIdentityResponse();
     message.certificate = object.certificate !== undefined && object.certificate !== null ? Certificate.fromPartial(object.certificate) : undefined;
     return message;
@@ -645,7 +783,21 @@ export const QueryOperatorsRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryOperatorsRequest>): QueryOperatorsRequest {
+  fromJSON(object: any): QueryOperatorsRequest {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
+    };
+  },
+
+  toJSON(message: QueryOperatorsRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryOperatorsRequest>): QueryOperatorsRequest {
     const message = createBaseQueryOperatorsRequest();
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
@@ -700,7 +852,27 @@ export const QueryOperatorsResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryOperatorsResponse>): QueryOperatorsResponse {
+  fromJSON(object: any): QueryOperatorsResponse {
+    return {
+      operators: Array.isArray(object?.operators) ? object.operators.map((e: any) => String(e)) : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
+    };
+  },
+
+  toJSON(message: QueryOperatorsResponse): unknown {
+    const obj: any = {};
+
+    if (message.operators) {
+      obj.operators = message.operators.map(e => e);
+    } else {
+      obj.operators = [];
+    }
+
+    message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryOperatorsResponse>): QueryOperatorsResponse {
     const message = createBaseQueryOperatorsResponse();
     message.operators = object.operators?.map(e => e) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
@@ -755,7 +927,21 @@ export const QueryMemberRoleRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryMemberRoleRequest>): QueryMemberRoleRequest {
+  fromJSON(object: any): QueryMemberRoleRequest {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+      member: isSet(object.member) ? String(object.member) : ""
+    };
+  },
+
+  toJSON(message: QueryMemberRoleRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    message.member !== undefined && (obj.member = message.member);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryMemberRoleRequest>): QueryMemberRoleRequest {
     const message = createBaseQueryMemberRoleRequest();
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
     message.member = object.member ?? "";
@@ -801,7 +987,19 @@ export const QueryMemberRoleResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryMemberRoleResponse>): QueryMemberRoleResponse {
+  fromJSON(object: any): QueryMemberRoleResponse {
+    return {
+      role: isSet(object.role) ? String(object.role) : ""
+    };
+  },
+
+  toJSON(message: QueryMemberRoleResponse): unknown {
+    const obj: any = {};
+    message.role !== undefined && (obj.role = message.role);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryMemberRoleResponse>): QueryMemberRoleResponse {
     const message = createBaseQueryMemberRoleResponse();
     message.role = object.role ?? "";
     return message;
@@ -846,7 +1044,19 @@ export const QueryIsFrozenRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryIsFrozenRequest>): QueryIsFrozenRequest {
+  fromJSON(object: any): QueryIsFrozenRequest {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO
+    };
+  },
+
+  toJSON(message: QueryIsFrozenRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryIsFrozenRequest>): QueryIsFrozenRequest {
     const message = createBaseQueryIsFrozenRequest();
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
     return message;
@@ -891,7 +1101,19 @@ export const QueryIsFrozenResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryIsFrozenResponse>): QueryIsFrozenResponse {
+  fromJSON(object: any): QueryIsFrozenResponse {
+    return {
+      isFrozen: isSet(object.isFrozen) ? Boolean(object.isFrozen) : false
+    };
+  },
+
+  toJSON(message: QueryIsFrozenResponse): unknown {
+    const obj: any = {};
+    message.isFrozen !== undefined && (obj.isFrozen = message.isFrozen);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryIsFrozenResponse>): QueryIsFrozenResponse {
     const message = createBaseQueryIsFrozenResponse();
     message.isFrozen = object.isFrozen ?? false;
     return message;

@@ -3,7 +3,7 @@ import { Params, ParamsSDKType } from "./params";
 import { CDA, CDASDKType } from "./cda";
 import { Contract, ContractSDKType } from "./contract";
 import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, Long } from "../../helpers";
+import { isSet, Long, bytesFromBase64, base64FromBytes } from "../../helpers";
 /** QueryParamsRequest is request type for the Query/Params RPC method. */
 
 export interface QueryParamsRequest {}
@@ -19,6 +19,7 @@ export interface QueryParamsResponse {
 /** QueryParamsResponse is response type for the Query/Params RPC method. */
 
 export interface QueryParamsResponseSDKType {
+  /** params holds all the parameters of this module. */
   params?: ParamsSDKType;
 }
 export interface QueryCdaRequest {
@@ -38,6 +39,7 @@ export interface QueryCdasRequest {
   pagination?: PageRequest;
 }
 export interface QueryCdasRequestSDKType {
+  /** Pagination to view all CDAs */
   pagination?: PageRequestSDKType;
 }
 export interface QueryCdasResponse {
@@ -48,41 +50,53 @@ export interface QueryCdasResponse {
   pagination?: PageResponse;
 }
 export interface QueryCdasResponseSDKType {
+  /** List of CDA objects */
   CDAs: CDASDKType[];
+  /** Pagination to view all CDAs */
+
   pagination?: PageResponseSDKType;
 }
-export interface QueryCdasOwnedRequest {
+export interface QueryCdasBySignerRequest {
   /** Account address for the owner */
-  owner: string;
+  signer: Long;
   /** Pagination to view all ids */
 
   pagination?: PageRequest;
 }
-export interface QueryCdasOwnedRequestSDKType {
-  owner: string;
+export interface QueryCdasBySignerRequestSDKType {
+  /** Account address for the owner */
+  signer: Long;
+  /** Pagination to view all ids */
+
   pagination?: PageRequestSDKType;
 }
-export interface QueryCdasOwnedResponse {
+export interface QueryCdasBySignerResponse {
   /** List of CDA ids belonging to the owner */
   ids: Long[];
   /** Pagination to view all CDAs */
 
   pagination?: PageResponse;
 }
-export interface QueryCdasOwnedResponseSDKType {
+export interface QueryCdasBySignerResponseSDKType {
+  /** List of CDA ids belonging to the owner */
   ids: Long[];
+  /** Pagination to view all CDAs */
+
   pagination?: PageResponseSDKType;
 }
 export interface QueryApprovalRequest {
-  /** The id of the CDA to check */
+  /** The CDA ID to check */
   cdaId: Long;
-  /** The wallet address of the owner to check */
+  /** The identity ID of the signer to check */
 
-  owner: string;
+  signerId: Long;
 }
 export interface QueryApprovalRequestSDKType {
-  cdaId: Long;
-  owner: string;
+  /** The CDA ID to check */
+  cda_id: Long;
+  /** The identity ID of the signer to check */
+
+  signer_id: Long;
 }
 export interface QueryApprovalResponse {
   approved: boolean;
@@ -99,6 +113,7 @@ export interface QueryContractRequest {
 /** QueryContractRequest is the request type for the Query/Contract RPC method. */
 
 export interface QueryContractRequestSDKType {
+  /** QueryContractRequest is the request type for the Query/Contract RPC method. */
   id: Long;
 }
 /**
@@ -126,6 +141,7 @@ export interface QueryContractsRequest {
 /** QueryContractsRequest is the request type for the Query/Contracts RPC method. */
 
 export interface QueryContractsRequestSDKType {
+  /** pagination defines an optional pagination for the request. */
   pagination?: PageRequestSDKType;
 }
 /**
@@ -146,48 +162,82 @@ export interface QueryContractsResponse {
  */
 
 export interface QueryContractsResponseSDKType {
+  /** the ids of the contracts registered */
   contracts: ContractSDKType[];
+  /** pagination defines the pagination in the response. */
+
   pagination?: PageResponseSDKType;
 }
-/** QuerySigningDataRequest is the request type for the Query/SigningData RPC method */
-
-export interface QuerySigningDataRequest {
-  /** QuerySigningDataRequest is the request type for the Query/SigningData RPC method */
-  id: Long;
-}
-/** QuerySigningDataRequest is the request type for the Query/SigningData RPC method */
-
-export interface QuerySigningDataRequestSDKType {
-  id: Long;
-}
-/** QuerySigningDataResponse is the response type for the Query/SigningData RPC method */
-
-export interface QuerySigningDataResponse {
-  signingData: Uint8Array;
-}
-/** QuerySigningDataResponse is the response type for the Query/SigningData RPC method */
-
-export interface QuerySigningDataResponseSDKType {
-  signing_data: Uint8Array;
-}
 /**
- * QuerySigningDataSchemaRequest is the request type for the Query/SigningData RPC
+ * QuerySigningDataRequest is the request type for the Query/SigningData RPC
  * method
  */
 
-export interface QuerySigningDataSchemaRequest {
+export interface QuerySigningDataRequest {
   /**
-   * QuerySigningDataSchemaRequest is the request type for the Query/SigningData RPC
+   * QuerySigningDataRequest is the request type for the Query/SigningData RPC
    * method
    */
   id: Long;
 }
 /**
- * QuerySigningDataSchemaRequest is the request type for the Query/SigningData RPC
+ * QuerySigningDataRequest is the request type for the Query/SigningData RPC
  * method
  */
 
+export interface QuerySigningDataRequestSDKType {
+  /**
+   * QuerySigningDataRequest is the request type for the Query/SigningData RPC
+   * method
+   */
+  id: Long;
+}
+/**
+ * QuerySigningDataResponse is the response type for the Query/SigningData RPC
+ * method
+ */
+
+export interface QuerySigningDataResponse {
+  /**
+   * QuerySigningDataResponse is the response type for the Query/SigningData RPC
+   * method
+   */
+  signingData: Uint8Array;
+}
+/**
+ * QuerySigningDataResponse is the response type for the Query/SigningData RPC
+ * method
+ */
+
+export interface QuerySigningDataResponseSDKType {
+  /**
+   * QuerySigningDataResponse is the response type for the Query/SigningData RPC
+   * method
+   */
+  signing_data: Uint8Array;
+}
+/**
+ * QuerySigningDataSchemaRequest is the request type for the Query/SigningData
+ * RPC method
+ */
+
+export interface QuerySigningDataSchemaRequest {
+  /**
+   * QuerySigningDataSchemaRequest is the request type for the Query/SigningData
+   * RPC method
+   */
+  id: Long;
+}
+/**
+ * QuerySigningDataSchemaRequest is the request type for the Query/SigningData
+ * RPC method
+ */
+
 export interface QuerySigningDataSchemaRequestSDKType {
+  /**
+   * QuerySigningDataSchemaRequest is the request type for the Query/SigningData
+   * RPC method
+   */
   id: Long;
 }
 /**
@@ -196,6 +246,10 @@ export interface QuerySigningDataSchemaRequestSDKType {
  */
 
 export interface QuerySigningDataSchemaResponse {
+  /**
+   * QuerySigningDataResponse is the reseponse type for the Query/SigningData RPC
+   * method
+   */
   schema: Uint8Array;
 }
 /**
@@ -204,6 +258,10 @@ export interface QuerySigningDataSchemaResponse {
  */
 
 export interface QuerySigningDataSchemaResponseSDKType {
+  /**
+   * QuerySigningDataResponse is the reseponse type for the Query/SigningData RPC
+   * method
+   */
   schema: Uint8Array;
 }
 
@@ -234,7 +292,16 @@ export const QueryParamsRequest = {
     return message;
   },
 
-  fromPartial(_: DeepPartial<QueryParamsRequest>): QueryParamsRequest {
+  fromJSON(_: any): QueryParamsRequest {
+    return {};
+  },
+
+  toJSON(_: QueryParamsRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: Partial<QueryParamsRequest>): QueryParamsRequest {
     const message = createBaseQueryParamsRequest();
     return message;
   }
@@ -278,7 +345,19 @@ export const QueryParamsResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryParamsResponse>): QueryParamsResponse {
+  fromJSON(object: any): QueryParamsResponse {
+    return {
+      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined
+    };
+  },
+
+  toJSON(message: QueryParamsResponse): unknown {
+    const obj: any = {};
+    message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryParamsResponse>): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
     message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
     return message;
@@ -323,7 +402,19 @@ export const QueryCdaRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryCdaRequest>): QueryCdaRequest {
+  fromJSON(object: any): QueryCdaRequest {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO
+    };
+  },
+
+  toJSON(message: QueryCdaRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryCdaRequest>): QueryCdaRequest {
     const message = createBaseQueryCdaRequest();
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
     return message;
@@ -368,7 +459,19 @@ export const QueryCdaResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryCdaResponse>): QueryCdaResponse {
+  fromJSON(object: any): QueryCdaResponse {
+    return {
+      cda: isSet(object.cda) ? CDA.fromJSON(object.cda) : undefined
+    };
+  },
+
+  toJSON(message: QueryCdaResponse): unknown {
+    const obj: any = {};
+    message.cda !== undefined && (obj.cda = message.cda ? CDA.toJSON(message.cda) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryCdaResponse>): QueryCdaResponse {
     const message = createBaseQueryCdaResponse();
     message.cda = object.cda !== undefined && object.cda !== null ? CDA.fromPartial(object.cda) : undefined;
     return message;
@@ -413,7 +516,19 @@ export const QueryCdasRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryCdasRequest>): QueryCdasRequest {
+  fromJSON(object: any): QueryCdasRequest {
+    return {
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
+    };
+  },
+
+  toJSON(message: QueryCdasRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryCdasRequest>): QueryCdasRequest {
     const message = createBaseQueryCdasRequest();
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
     return message;
@@ -467,7 +582,27 @@ export const QueryCdasResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryCdasResponse>): QueryCdasResponse {
+  fromJSON(object: any): QueryCdasResponse {
+    return {
+      CDAs: Array.isArray(object?.CDAs) ? object.CDAs.map((e: any) => CDA.fromJSON(e)) : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
+    };
+  },
+
+  toJSON(message: QueryCdasResponse): unknown {
+    const obj: any = {};
+
+    if (message.CDAs) {
+      obj.CDAs = message.CDAs.map(e => e ? CDA.toJSON(e) : undefined);
+    } else {
+      obj.CDAs = [];
+    }
+
+    message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryCdasResponse>): QueryCdasResponse {
     const message = createBaseQueryCdasResponse();
     message.CDAs = object.CDAs?.map(e => CDA.fromPartial(e)) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
@@ -476,17 +611,17 @@ export const QueryCdasResponse = {
 
 };
 
-function createBaseQueryCdasOwnedRequest(): QueryCdasOwnedRequest {
+function createBaseQueryCdasBySignerRequest(): QueryCdasBySignerRequest {
   return {
-    owner: "",
+    signer: Long.UZERO,
     pagination: undefined
   };
 }
 
-export const QueryCdasOwnedRequest = {
-  encode(message: QueryCdasOwnedRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.owner !== "") {
-      writer.uint32(10).string(message.owner);
+export const QueryCdasBySignerRequest = {
+  encode(message: QueryCdasBySignerRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.signer.isZero()) {
+      writer.uint32(8).uint64(message.signer);
     }
 
     if (message.pagination !== undefined) {
@@ -496,17 +631,17 @@ export const QueryCdasOwnedRequest = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryCdasOwnedRequest {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryCdasBySignerRequest {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseQueryCdasOwnedRequest();
+    const message = createBaseQueryCdasBySignerRequest();
 
     while (reader.pos < end) {
       const tag = reader.uint32();
 
       switch (tag >>> 3) {
         case 1:
-          message.owner = reader.string();
+          message.signer = (reader.uint64() as Long);
           break;
 
         case 2:
@@ -522,24 +657,38 @@ export const QueryCdasOwnedRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryCdasOwnedRequest>): QueryCdasOwnedRequest {
-    const message = createBaseQueryCdasOwnedRequest();
-    message.owner = object.owner ?? "";
+  fromJSON(object: any): QueryCdasBySignerRequest {
+    return {
+      signer: isSet(object.signer) ? Long.fromValue(object.signer) : Long.UZERO,
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
+    };
+  },
+
+  toJSON(message: QueryCdasBySignerRequest): unknown {
+    const obj: any = {};
+    message.signer !== undefined && (obj.signer = (message.signer || Long.UZERO).toString());
+    message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryCdasBySignerRequest>): QueryCdasBySignerRequest {
+    const message = createBaseQueryCdasBySignerRequest();
+    message.signer = object.signer !== undefined && object.signer !== null ? Long.fromValue(object.signer) : Long.UZERO;
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
     return message;
   }
 
 };
 
-function createBaseQueryCdasOwnedResponse(): QueryCdasOwnedResponse {
+function createBaseQueryCdasBySignerResponse(): QueryCdasBySignerResponse {
   return {
     ids: [],
     pagination: undefined
   };
 }
 
-export const QueryCdasOwnedResponse = {
-  encode(message: QueryCdasOwnedResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const QueryCdasBySignerResponse = {
+  encode(message: QueryCdasBySignerResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     writer.uint32(10).fork();
 
     for (const v of message.ids) {
@@ -555,10 +704,10 @@ export const QueryCdasOwnedResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryCdasOwnedResponse {
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryCdasBySignerResponse {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseQueryCdasOwnedResponse();
+    const message = createBaseQueryCdasBySignerResponse();
 
     while (reader.pos < end) {
       const tag = reader.uint32();
@@ -590,8 +739,28 @@ export const QueryCdasOwnedResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryCdasOwnedResponse>): QueryCdasOwnedResponse {
-    const message = createBaseQueryCdasOwnedResponse();
+  fromJSON(object: any): QueryCdasBySignerResponse {
+    return {
+      ids: Array.isArray(object?.ids) ? object.ids.map((e: any) => Long.fromValue(e)) : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
+    };
+  },
+
+  toJSON(message: QueryCdasBySignerResponse): unknown {
+    const obj: any = {};
+
+    if (message.ids) {
+      obj.ids = message.ids.map(e => (e || Long.UZERO).toString());
+    } else {
+      obj.ids = [];
+    }
+
+    message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryCdasBySignerResponse>): QueryCdasBySignerResponse {
+    const message = createBaseQueryCdasBySignerResponse();
     message.ids = object.ids?.map(e => Long.fromValue(e)) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
     return message;
@@ -602,7 +771,7 @@ export const QueryCdasOwnedResponse = {
 function createBaseQueryApprovalRequest(): QueryApprovalRequest {
   return {
     cdaId: Long.UZERO,
-    owner: ""
+    signerId: Long.UZERO
   };
 }
 
@@ -612,8 +781,8 @@ export const QueryApprovalRequest = {
       writer.uint32(8).uint64(message.cdaId);
     }
 
-    if (message.owner !== "") {
-      writer.uint32(18).string(message.owner);
+    if (!message.signerId.isZero()) {
+      writer.uint32(16).uint64(message.signerId);
     }
 
     return writer;
@@ -633,7 +802,7 @@ export const QueryApprovalRequest = {
           break;
 
         case 2:
-          message.owner = reader.string();
+          message.signerId = (reader.uint64() as Long);
           break;
 
         default:
@@ -645,10 +814,24 @@ export const QueryApprovalRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryApprovalRequest>): QueryApprovalRequest {
+  fromJSON(object: any): QueryApprovalRequest {
+    return {
+      cdaId: isSet(object.cdaId) ? Long.fromValue(object.cdaId) : Long.UZERO,
+      signerId: isSet(object.signerId) ? Long.fromValue(object.signerId) : Long.UZERO
+    };
+  },
+
+  toJSON(message: QueryApprovalRequest): unknown {
+    const obj: any = {};
+    message.cdaId !== undefined && (obj.cdaId = (message.cdaId || Long.UZERO).toString());
+    message.signerId !== undefined && (obj.signerId = (message.signerId || Long.UZERO).toString());
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryApprovalRequest>): QueryApprovalRequest {
     const message = createBaseQueryApprovalRequest();
     message.cdaId = object.cdaId !== undefined && object.cdaId !== null ? Long.fromValue(object.cdaId) : Long.UZERO;
-    message.owner = object.owner ?? "";
+    message.signerId = object.signerId !== undefined && object.signerId !== null ? Long.fromValue(object.signerId) : Long.UZERO;
     return message;
   }
 
@@ -691,7 +874,19 @@ export const QueryApprovalResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryApprovalResponse>): QueryApprovalResponse {
+  fromJSON(object: any): QueryApprovalResponse {
+    return {
+      approved: isSet(object.approved) ? Boolean(object.approved) : false
+    };
+  },
+
+  toJSON(message: QueryApprovalResponse): unknown {
+    const obj: any = {};
+    message.approved !== undefined && (obj.approved = message.approved);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryApprovalResponse>): QueryApprovalResponse {
     const message = createBaseQueryApprovalResponse();
     message.approved = object.approved ?? false;
     return message;
@@ -736,7 +931,19 @@ export const QueryContractRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryContractRequest>): QueryContractRequest {
+  fromJSON(object: any): QueryContractRequest {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO
+    };
+  },
+
+  toJSON(message: QueryContractRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryContractRequest>): QueryContractRequest {
     const message = createBaseQueryContractRequest();
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
     return message;
@@ -781,7 +988,19 @@ export const QueryContractResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryContractResponse>): QueryContractResponse {
+  fromJSON(object: any): QueryContractResponse {
+    return {
+      contract: isSet(object.contract) ? Contract.fromJSON(object.contract) : undefined
+    };
+  },
+
+  toJSON(message: QueryContractResponse): unknown {
+    const obj: any = {};
+    message.contract !== undefined && (obj.contract = message.contract ? Contract.toJSON(message.contract) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryContractResponse>): QueryContractResponse {
     const message = createBaseQueryContractResponse();
     message.contract = object.contract !== undefined && object.contract !== null ? Contract.fromPartial(object.contract) : undefined;
     return message;
@@ -826,7 +1045,19 @@ export const QueryContractsRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryContractsRequest>): QueryContractsRequest {
+  fromJSON(object: any): QueryContractsRequest {
+    return {
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
+    };
+  },
+
+  toJSON(message: QueryContractsRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryContractsRequest>): QueryContractsRequest {
     const message = createBaseQueryContractsRequest();
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
     return message;
@@ -880,7 +1111,27 @@ export const QueryContractsResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QueryContractsResponse>): QueryContractsResponse {
+  fromJSON(object: any): QueryContractsResponse {
+    return {
+      contracts: Array.isArray(object?.contracts) ? object.contracts.map((e: any) => Contract.fromJSON(e)) : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
+    };
+  },
+
+  toJSON(message: QueryContractsResponse): unknown {
+    const obj: any = {};
+
+    if (message.contracts) {
+      obj.contracts = message.contracts.map(e => e ? Contract.toJSON(e) : undefined);
+    } else {
+      obj.contracts = [];
+    }
+
+    message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: Partial<QueryContractsResponse>): QueryContractsResponse {
     const message = createBaseQueryContractsResponse();
     message.contracts = object.contracts?.map(e => Contract.fromPartial(e)) || [];
     message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
@@ -926,7 +1177,19 @@ export const QuerySigningDataRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QuerySigningDataRequest>): QuerySigningDataRequest {
+  fromJSON(object: any): QuerySigningDataRequest {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO
+    };
+  },
+
+  toJSON(message: QuerySigningDataRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    return obj;
+  },
+
+  fromPartial(object: Partial<QuerySigningDataRequest>): QuerySigningDataRequest {
     const message = createBaseQuerySigningDataRequest();
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
     return message;
@@ -971,7 +1234,19 @@ export const QuerySigningDataResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QuerySigningDataResponse>): QuerySigningDataResponse {
+  fromJSON(object: any): QuerySigningDataResponse {
+    return {
+      signingData: isSet(object.signingData) ? bytesFromBase64(object.signingData) : new Uint8Array()
+    };
+  },
+
+  toJSON(message: QuerySigningDataResponse): unknown {
+    const obj: any = {};
+    message.signingData !== undefined && (obj.signingData = base64FromBytes(message.signingData !== undefined ? message.signingData : new Uint8Array()));
+    return obj;
+  },
+
+  fromPartial(object: Partial<QuerySigningDataResponse>): QuerySigningDataResponse {
     const message = createBaseQuerySigningDataResponse();
     message.signingData = object.signingData ?? new Uint8Array();
     return message;
@@ -1016,7 +1291,19 @@ export const QuerySigningDataSchemaRequest = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QuerySigningDataSchemaRequest>): QuerySigningDataSchemaRequest {
+  fromJSON(object: any): QuerySigningDataSchemaRequest {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO
+    };
+  },
+
+  toJSON(message: QuerySigningDataSchemaRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    return obj;
+  },
+
+  fromPartial(object: Partial<QuerySigningDataSchemaRequest>): QuerySigningDataSchemaRequest {
     const message = createBaseQuerySigningDataSchemaRequest();
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
     return message;
@@ -1061,7 +1348,19 @@ export const QuerySigningDataSchemaResponse = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<QuerySigningDataSchemaResponse>): QuerySigningDataSchemaResponse {
+  fromJSON(object: any): QuerySigningDataSchemaResponse {
+    return {
+      schema: isSet(object.schema) ? bytesFromBase64(object.schema) : new Uint8Array()
+    };
+  },
+
+  toJSON(message: QuerySigningDataSchemaResponse): unknown {
+    const obj: any = {};
+    message.schema !== undefined && (obj.schema = base64FromBytes(message.schema !== undefined ? message.schema : new Uint8Array()));
+    return obj;
+  },
+
+  fromPartial(object: Partial<QuerySigningDataSchemaResponse>): QuerySigningDataSchemaResponse {
     const message = createBaseQuerySigningDataSchemaResponse();
     message.schema = object.schema ?? new Uint8Array();
     return message;

@@ -1,7 +1,7 @@
 import { AminoMsg } from "@cosmjs/amino";
 import { Long } from "../../helpers";
 import { MsgRegisterIssuer, MsgIssueCertificate, MsgAcceptIdentity, MsgRejectIdentity, MsgRenounceIdentity, MsgUpdateOperators, MsgUpdateMembers, MsgFreezeIdentity } from "./tx";
-export interface MsgRegisterIssuerAminoType extends AminoMsg {
+export interface AminoMsgRegisterIssuer extends AminoMsg {
   type: "/archive.identity.MsgRegisterIssuer";
   value: {
     creator: string;
@@ -9,7 +9,7 @@ export interface MsgRegisterIssuerAminoType extends AminoMsg {
     more_info_uri: string;
   };
 }
-export interface MsgIssueCertificateAminoType extends AminoMsg {
+export interface AminoMsgIssueCertificate extends AminoMsg {
   type: "/archive.identity.MsgIssueCertificate";
   value: {
     creator: string;
@@ -22,28 +22,28 @@ export interface MsgIssueCertificateAminoType extends AminoMsg {
     }[];
   };
 }
-export interface MsgAcceptIdentityAminoType extends AminoMsg {
+export interface AminoMsgAcceptIdentity extends AminoMsg {
   type: "/archive.identity.MsgAcceptIdentity";
   value: {
     creator: string;
     id: string;
   };
 }
-export interface MsgRejectIdentityAminoType extends AminoMsg {
+export interface AminoMsgRejectIdentity extends AminoMsg {
   type: "/archive.identity.MsgRejectIdentity";
   value: {
     creator: string;
     id: string;
   };
 }
-export interface MsgRenounceIdentityAminoType extends AminoMsg {
+export interface AminoMsgRenounceIdentity extends AminoMsg {
   type: "/archive.identity.MsgRenounceIdentity";
   value: {
     creator: string;
     id: string;
   };
 }
-export interface MsgUpdateOperatorsAminoType extends AminoMsg {
+export interface AminoMsgUpdateOperators extends AminoMsg {
   type: "/archive.identity.MsgUpdateOperators";
   value: {
     creator: string;
@@ -52,7 +52,7 @@ export interface MsgUpdateOperatorsAminoType extends AminoMsg {
     toRemove: string[];
   };
 }
-export interface MsgUpdateMembersAminoType extends AminoMsg {
+export interface AminoMsgUpdateMembers extends AminoMsg {
   type: "/archive.identity.MsgUpdateMembers";
   value: {
     creator: string;
@@ -61,7 +61,7 @@ export interface MsgUpdateMembersAminoType extends AminoMsg {
     toRemove: string[];
   };
 }
-export interface MsgFreezeIdentityAminoType extends AminoMsg {
+export interface AminoMsgFreezeIdentity extends AminoMsg {
   type: "/archive.identity.MsgFreezeIdentity";
   value: {
     creator: string;
@@ -75,7 +75,7 @@ export const AminoConverter = {
       creator,
       name,
       moreInfoUri
-    }: MsgRegisterIssuer): MsgRegisterIssuerAminoType["value"] => {
+    }: MsgRegisterIssuer): AminoMsgRegisterIssuer["value"] => {
       return {
         creator,
         name,
@@ -86,7 +86,7 @@ export const AminoConverter = {
       creator,
       name,
       more_info_uri
-    }: MsgRegisterIssuerAminoType["value"]): MsgRegisterIssuer => {
+    }: AminoMsgRegisterIssuer["value"]): MsgRegisterIssuer => {
       return {
         creator,
         name,
@@ -102,7 +102,7 @@ export const AminoConverter = {
       salt,
       metadataSchemaUri,
       hashes
-    }: MsgIssueCertificate): MsgIssueCertificateAminoType["value"] => {
+    }: MsgIssueCertificate): AminoMsgIssueCertificate["value"] => {
       return {
         creator,
         recipient,
@@ -120,7 +120,7 @@ export const AminoConverter = {
       salt,
       metadata_schema_uri,
       hashes
-    }: MsgIssueCertificateAminoType["value"]): MsgIssueCertificate => {
+    }: AminoMsgIssueCertificate["value"]): MsgIssueCertificate => {
       return {
         creator,
         recipient,
@@ -138,7 +138,7 @@ export const AminoConverter = {
     toAmino: ({
       creator,
       id
-    }: MsgAcceptIdentity): MsgAcceptIdentityAminoType["value"] => {
+    }: MsgAcceptIdentity): AminoMsgAcceptIdentity["value"] => {
       return {
         creator,
         id: id.toString()
@@ -147,7 +147,7 @@ export const AminoConverter = {
     fromAmino: ({
       creator,
       id
-    }: MsgAcceptIdentityAminoType["value"]): MsgAcceptIdentity => {
+    }: AminoMsgAcceptIdentity["value"]): MsgAcceptIdentity => {
       return {
         creator,
         id: Long.fromString(id)
@@ -159,7 +159,7 @@ export const AminoConverter = {
     toAmino: ({
       creator,
       id
-    }: MsgRejectIdentity): MsgRejectIdentityAminoType["value"] => {
+    }: MsgRejectIdentity): AminoMsgRejectIdentity["value"] => {
       return {
         creator,
         id: id.toString()
@@ -168,7 +168,7 @@ export const AminoConverter = {
     fromAmino: ({
       creator,
       id
-    }: MsgRejectIdentityAminoType["value"]): MsgRejectIdentity => {
+    }: AminoMsgRejectIdentity["value"]): MsgRejectIdentity => {
       return {
         creator,
         id: Long.fromString(id)
@@ -180,7 +180,7 @@ export const AminoConverter = {
     toAmino: ({
       creator,
       id
-    }: MsgRenounceIdentity): MsgRenounceIdentityAminoType["value"] => {
+    }: MsgRenounceIdentity): AminoMsgRenounceIdentity["value"] => {
       return {
         creator,
         id: id.toString()
@@ -189,7 +189,7 @@ export const AminoConverter = {
     fromAmino: ({
       creator,
       id
-    }: MsgRenounceIdentityAminoType["value"]): MsgRenounceIdentity => {
+    }: AminoMsgRenounceIdentity["value"]): MsgRenounceIdentity => {
       return {
         creator,
         id: Long.fromString(id)
@@ -203,7 +203,7 @@ export const AminoConverter = {
       id,
       toAdd,
       toRemove
-    }: MsgUpdateOperators): MsgUpdateOperatorsAminoType["value"] => {
+    }: MsgUpdateOperators): AminoMsgUpdateOperators["value"] => {
       return {
         creator,
         id: id.toString(),
@@ -216,7 +216,7 @@ export const AminoConverter = {
       id,
       toAdd,
       toRemove
-    }: MsgUpdateOperatorsAminoType["value"]): MsgUpdateOperators => {
+    }: AminoMsgUpdateOperators["value"]): MsgUpdateOperators => {
       return {
         creator,
         id: Long.fromString(id),
@@ -232,7 +232,7 @@ export const AminoConverter = {
       id,
       toAdd,
       toRemove
-    }: MsgUpdateMembers): MsgUpdateMembersAminoType["value"] => {
+    }: MsgUpdateMembers): AminoMsgUpdateMembers["value"] => {
       return {
         creator,
         id: id.toString(),
@@ -245,7 +245,7 @@ export const AminoConverter = {
       id,
       toAdd,
       toRemove
-    }: MsgUpdateMembersAminoType["value"]): MsgUpdateMembers => {
+    }: AminoMsgUpdateMembers["value"]): MsgUpdateMembers => {
       return {
         creator,
         id: Long.fromString(id),
@@ -259,7 +259,7 @@ export const AminoConverter = {
     toAmino: ({
       creator,
       id
-    }: MsgFreezeIdentity): MsgFreezeIdentityAminoType["value"] => {
+    }: MsgFreezeIdentity): AminoMsgFreezeIdentity["value"] => {
       return {
         creator,
         id: id.toString()
@@ -268,7 +268,7 @@ export const AminoConverter = {
     fromAmino: ({
       creator,
       id
-    }: MsgFreezeIdentityAminoType["value"]): MsgFreezeIdentity => {
+    }: AminoMsgFreezeIdentity["value"]): MsgFreezeIdentity => {
       return {
         creator,
         id: Long.fromString(id)

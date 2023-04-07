@@ -1,5 +1,5 @@
 import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, Long } from "../../helpers";
+import { isSet, Long } from "../../helpers";
 /** HashEntry is a record of a field: hash mapping used in Certificates */
 
 export interface HashEntry {
@@ -77,7 +77,21 @@ export const HashEntry = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<HashEntry>): HashEntry {
+  fromJSON(object: any): HashEntry {
+    return {
+      field: isSet(object.field) ? String(object.field) : "",
+      hash: isSet(object.hash) ? String(object.hash) : ""
+    };
+  },
+
+  toJSON(message: HashEntry): unknown {
+    const obj: any = {};
+    message.field !== undefined && (obj.field = message.field);
+    message.hash !== undefined && (obj.hash = message.hash);
+    return obj;
+  },
+
+  fromPartial(object: Partial<HashEntry>): HashEntry {
     const message = createBaseHashEntry();
     message.field = object.field ?? "";
     message.hash = object.hash ?? "";
@@ -159,7 +173,33 @@ export const Certificate = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<Certificate>): Certificate {
+  fromJSON(object: any): Certificate {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+      issuerAddress: isSet(object.issuerAddress) ? String(object.issuerAddress) : "",
+      salt: isSet(object.salt) ? String(object.salt) : "",
+      metadataSchemaUri: isSet(object.metadataSchemaUri) ? String(object.metadataSchemaUri) : "",
+      hashes: Array.isArray(object?.hashes) ? object.hashes.map((e: any) => HashEntry.fromJSON(e)) : []
+    };
+  },
+
+  toJSON(message: Certificate): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    message.issuerAddress !== undefined && (obj.issuerAddress = message.issuerAddress);
+    message.salt !== undefined && (obj.salt = message.salt);
+    message.metadataSchemaUri !== undefined && (obj.metadataSchemaUri = message.metadataSchemaUri);
+
+    if (message.hashes) {
+      obj.hashes = message.hashes.map(e => e ? HashEntry.toJSON(e) : undefined);
+    } else {
+      obj.hashes = [];
+    }
+
+    return obj;
+  },
+
+  fromPartial(object: Partial<Certificate>): Certificate {
     const message = createBaseCertificate();
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
     message.issuerAddress = object.issuerAddress ?? "";

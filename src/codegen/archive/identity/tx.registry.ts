@@ -123,6 +123,122 @@ export const MessageComposer = {
     }
 
   },
+  toJSON: {
+    registerIssuer(value: MsgRegisterIssuer) {
+      return {
+        typeUrl: "/archive.identity.MsgRegisterIssuer",
+        value: MsgRegisterIssuer.toJSON(value)
+      };
+    },
+
+    issueCertificate(value: MsgIssueCertificate) {
+      return {
+        typeUrl: "/archive.identity.MsgIssueCertificate",
+        value: MsgIssueCertificate.toJSON(value)
+      };
+    },
+
+    acceptIdentity(value: MsgAcceptIdentity) {
+      return {
+        typeUrl: "/archive.identity.MsgAcceptIdentity",
+        value: MsgAcceptIdentity.toJSON(value)
+      };
+    },
+
+    rejectIdentity(value: MsgRejectIdentity) {
+      return {
+        typeUrl: "/archive.identity.MsgRejectIdentity",
+        value: MsgRejectIdentity.toJSON(value)
+      };
+    },
+
+    renounceIdentity(value: MsgRenounceIdentity) {
+      return {
+        typeUrl: "/archive.identity.MsgRenounceIdentity",
+        value: MsgRenounceIdentity.toJSON(value)
+      };
+    },
+
+    updateOperators(value: MsgUpdateOperators) {
+      return {
+        typeUrl: "/archive.identity.MsgUpdateOperators",
+        value: MsgUpdateOperators.toJSON(value)
+      };
+    },
+
+    updateMembers(value: MsgUpdateMembers) {
+      return {
+        typeUrl: "/archive.identity.MsgUpdateMembers",
+        value: MsgUpdateMembers.toJSON(value)
+      };
+    },
+
+    freezeIdentity(value: MsgFreezeIdentity) {
+      return {
+        typeUrl: "/archive.identity.MsgFreezeIdentity",
+        value: MsgFreezeIdentity.toJSON(value)
+      };
+    }
+
+  },
+  fromJSON: {
+    registerIssuer(value: any) {
+      return {
+        typeUrl: "/archive.identity.MsgRegisterIssuer",
+        value: MsgRegisterIssuer.fromJSON(value)
+      };
+    },
+
+    issueCertificate(value: any) {
+      return {
+        typeUrl: "/archive.identity.MsgIssueCertificate",
+        value: MsgIssueCertificate.fromJSON(value)
+      };
+    },
+
+    acceptIdentity(value: any) {
+      return {
+        typeUrl: "/archive.identity.MsgAcceptIdentity",
+        value: MsgAcceptIdentity.fromJSON(value)
+      };
+    },
+
+    rejectIdentity(value: any) {
+      return {
+        typeUrl: "/archive.identity.MsgRejectIdentity",
+        value: MsgRejectIdentity.fromJSON(value)
+      };
+    },
+
+    renounceIdentity(value: any) {
+      return {
+        typeUrl: "/archive.identity.MsgRenounceIdentity",
+        value: MsgRenounceIdentity.fromJSON(value)
+      };
+    },
+
+    updateOperators(value: any) {
+      return {
+        typeUrl: "/archive.identity.MsgUpdateOperators",
+        value: MsgUpdateOperators.fromJSON(value)
+      };
+    },
+
+    updateMembers(value: any) {
+      return {
+        typeUrl: "/archive.identity.MsgUpdateMembers",
+        value: MsgUpdateMembers.fromJSON(value)
+      };
+    },
+
+    freezeIdentity(value: any) {
+      return {
+        typeUrl: "/archive.identity.MsgFreezeIdentity",
+        value: MsgFreezeIdentity.fromJSON(value)
+      };
+    }
+
+  },
   fromPartial: {
     registerIssuer(value: MsgRegisterIssuer) {
       return {

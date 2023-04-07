@@ -1,12 +1,17 @@
-import { Long, DeepPartial } from "../../helpers";
 import * as _m0 from "protobufjs/minimal";
+import { Long, isSet } from "../../helpers";
 export enum ContactMethod {
   /** Phone - People won't want to publish their phone number on here */
   Phone = 0,
   Email = 1,
   UNRECOGNIZED = -1,
 }
-export const ContactMethodSDKType = ContactMethod;
+export enum ContactMethodSDKType {
+  /** Phone - People won't want to publish their phone number on here */
+  Phone = 0,
+  Email = 1,
+  UNRECOGNIZED = -1,
+}
 export function contactMethodFromJSON(object: any): ContactMethod {
   switch (object) {
     case 0:
@@ -44,6 +49,7 @@ export interface Contract {
   moreInfoUri: string;
   templateUri: string;
   templateSchemaUri: string;
+  witnessCodeId: Long;
 }
 export interface ContractSDKType {
   id: Long;
@@ -53,13 +59,14 @@ export interface ContractSDKType {
   more_info_uri: string;
   template_uri: string;
   template_schema_uri: string;
+  witness_code_id: Long;
 }
 export interface ContactInfo {
   method: ContactMethod;
   value: string;
 }
 export interface ContactInfoSDKType {
-  method: ContactMethod;
+  method: ContactMethodSDKType;
   value: string;
 }
 
@@ -71,7 +78,8 @@ function createBaseContract(): Contract {
     contactInfo: undefined,
     moreInfoUri: "",
     templateUri: "",
-    templateSchemaUri: ""
+    templateSchemaUri: "",
+    witnessCodeId: Long.UZERO
   };
 }
 
@@ -103,6 +111,10 @@ export const Contract = {
 
     if (message.templateSchemaUri !== "") {
       writer.uint32(58).string(message.templateSchemaUri);
+    }
+
+    if (!message.witnessCodeId.isZero()) {
+      writer.uint32(64).uint64(message.witnessCodeId);
     }
 
     return writer;
@@ -145,6 +157,10 @@ export const Contract = {
           message.templateSchemaUri = reader.string();
           break;
 
+        case 8:
+          message.witnessCodeId = (reader.uint64() as Long);
+          break;
+
         default:
           reader.skipType(tag & 7);
           break;
@@ -154,7 +170,39 @@ export const Contract = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<Contract>): Contract {
+  fromJSON(object: any): Contract {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+      description: isSet(object.description) ? String(object.description) : "",
+      authors: Array.isArray(object?.authors) ? object.authors.map((e: any) => String(e)) : [],
+      contactInfo: isSet(object.contactInfo) ? ContactInfo.fromJSON(object.contactInfo) : undefined,
+      moreInfoUri: isSet(object.moreInfoUri) ? String(object.moreInfoUri) : "",
+      templateUri: isSet(object.templateUri) ? String(object.templateUri) : "",
+      templateSchemaUri: isSet(object.templateSchemaUri) ? String(object.templateSchemaUri) : "",
+      witnessCodeId: isSet(object.witnessCodeId) ? Long.fromValue(object.witnessCodeId) : Long.UZERO
+    };
+  },
+
+  toJSON(message: Contract): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    message.description !== undefined && (obj.description = message.description);
+
+    if (message.authors) {
+      obj.authors = message.authors.map(e => e);
+    } else {
+      obj.authors = [];
+    }
+
+    message.contactInfo !== undefined && (obj.contactInfo = message.contactInfo ? ContactInfo.toJSON(message.contactInfo) : undefined);
+    message.moreInfoUri !== undefined && (obj.moreInfoUri = message.moreInfoUri);
+    message.templateUri !== undefined && (obj.templateUri = message.templateUri);
+    message.templateSchemaUri !== undefined && (obj.templateSchemaUri = message.templateSchemaUri);
+    message.witnessCodeId !== undefined && (obj.witnessCodeId = (message.witnessCodeId || Long.UZERO).toString());
+    return obj;
+  },
+
+  fromPartial(object: Partial<Contract>): Contract {
     const message = createBaseContract();
     message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
     message.description = object.description ?? "";
@@ -163,6 +211,7 @@ export const Contract = {
     message.moreInfoUri = object.moreInfoUri ?? "";
     message.templateUri = object.templateUri ?? "";
     message.templateSchemaUri = object.templateSchemaUri ?? "";
+    message.witnessCodeId = object.witnessCodeId !== undefined && object.witnessCodeId !== null ? Long.fromValue(object.witnessCodeId) : Long.UZERO;
     return message;
   }
 
@@ -214,7 +263,21 @@ export const ContactInfo = {
     return message;
   },
 
-  fromPartial(object: DeepPartial<ContactInfo>): ContactInfo {
+  fromJSON(object: any): ContactInfo {
+    return {
+      method: isSet(object.method) ? contactMethodFromJSON(object.method) : 0,
+      value: isSet(object.value) ? String(object.value) : ""
+    };
+  },
+
+  toJSON(message: ContactInfo): unknown {
+    const obj: any = {};
+    message.method !== undefined && (obj.method = contactMethodToJSON(message.method));
+    message.value !== undefined && (obj.value = message.value);
+    return obj;
+  },
+
+  fromPartial(object: Partial<ContactInfo>): ContactInfo {
     const message = createBaseContactInfo();
     message.method = object.method ?? 0;
     message.value = object.value ?? "";

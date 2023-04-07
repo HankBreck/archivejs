@@ -1,7 +1,7 @@
 import { Rpc } from "../../helpers";
 import * as _m0 from "protobufjs/minimal";
 import { QueryClient, createProtobufRpcClient } from "@cosmjs/stargate";
-import { QueryParamsRequest, QueryParamsResponse, QueryCdaRequest, QueryCdaResponse, QueryCdasRequest, QueryCdasResponse, QueryCdasOwnedRequest, QueryCdasOwnedResponse, QueryApprovalRequest, QueryApprovalResponse, QueryContractRequest, QueryContractResponse, QueryContractsRequest, QueryContractsResponse, QuerySigningDataRequest, QuerySigningDataResponse, QuerySigningDataSchemaRequest, QuerySigningDataSchemaResponse } from "./query";
+import { QueryParamsRequest, QueryParamsResponse, QueryCdaRequest, QueryCdaResponse, QueryCdasRequest, QueryCdasResponse, QueryCdasBySignerRequest, QueryCdasBySignerResponse, QueryApprovalRequest, QueryApprovalResponse, QueryContractRequest, QueryContractResponse, QueryContractsRequest, QueryContractsResponse, QuerySigningDataRequest, QuerySigningDataResponse, QuerySigningDataSchemaRequest, QuerySigningDataSchemaResponse } from "./query";
 /** Query defines the gRPC querier service. */
 
 export interface Query {
@@ -15,7 +15,7 @@ export interface Query {
   cdas(request?: QueryCdasRequest): Promise<QueryCdasResponse>;
   /** Queries a list of CdasOwned items. */
 
-  cdasOwned(request: QueryCdasOwnedRequest): Promise<QueryCdasOwnedResponse>;
+  cdasBySigner(request: QueryCdasBySignerRequest): Promise<QueryCdasBySignerResponse>;
   /** Queries a list of Approvals items. */
 
   approval(request: QueryApprovalRequest): Promise<QueryApprovalResponse>;
@@ -32,7 +32,7 @@ export class QueryClientImpl implements Query {
     this.params = this.params.bind(this);
     this.cda = this.cda.bind(this);
     this.cdas = this.cdas.bind(this);
-    this.cdasOwned = this.cdasOwned.bind(this);
+    this.cdasBySigner = this.cdasBySigner.bind(this);
     this.approval = this.approval.bind(this);
     this.contract = this.contract.bind(this);
     this.contracts = this.contracts.bind(this);
@@ -60,10 +60,10 @@ export class QueryClientImpl implements Query {
     return promise.then(data => QueryCdasResponse.decode(new _m0.Reader(data)));
   }
 
-  cdasOwned(request: QueryCdasOwnedRequest): Promise<QueryCdasOwnedResponse> {
-    const data = QueryCdasOwnedRequest.encode(request).finish();
-    const promise = this.rpc.request("archive.cda.Query", "CdasOwned", data);
-    return promise.then(data => QueryCdasOwnedResponse.decode(new _m0.Reader(data)));
+  cdasBySigner(request: QueryCdasBySignerRequest): Promise<QueryCdasBySignerResponse> {
+    const data = QueryCdasBySignerRequest.encode(request).finish();
+    const promise = this.rpc.request("archive.cda.Query", "CdasBySigner", data);
+    return promise.then(data => QueryCdasBySignerResponse.decode(new _m0.Reader(data)));
   }
 
   approval(request: QueryApprovalRequest): Promise<QueryApprovalResponse> {
@@ -115,8 +115,8 @@ export const createRpcQueryExtension = (base: QueryClient) => {
       return queryService.cdas(request);
     },
 
-    cdasOwned(request: QueryCdasOwnedRequest): Promise<QueryCdasOwnedResponse> {
-      return queryService.cdasOwned(request);
+    cdasBySigner(request: QueryCdasBySignerRequest): Promise<QueryCdasBySignerResponse> {
+      return queryService.cdasBySigner(request);
     },
 
     approval(request: QueryApprovalRequest): Promise<QueryApprovalResponse> {
